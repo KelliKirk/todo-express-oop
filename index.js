@@ -1,8 +1,14 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 
+import todoRoutes from './routes/todos.js'
+
 const app = express()
-app.use(bodyParser.json())
+
+app.use(express.json())
+app.use(express.urlencoded({extended: true} ))
+
+app.use ('/todos', todoRoutes)
 
 app.get('/json-test', (req, res) => {
     res.send({
@@ -11,5 +17,6 @@ app.get('/json-test', (req, res) => {
 } )
 
 app.listen(3009, () => {
-    console.log('server is connected at port 3009')
+    console.log('Server started')
 }  )
+
