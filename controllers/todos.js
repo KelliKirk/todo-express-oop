@@ -21,7 +21,14 @@ class todoController {
             newTask: newTodo
         })
     } 
+    
+    // meetod, mis tagastab JSON väljundisse kõik massiivi lisatud ülesanded
+getTodos(req, res) {
+    res.json({tasks: this.TODOS})
+}
 } 
+
+
 
 // Kontroller on mõistlik luua ainult üks kord, sest konstruktori kutsumist objekti loomiseks on vaja kasutada iga kord, kui tekib uus ülesanne
 export const TodoController = new todoController()

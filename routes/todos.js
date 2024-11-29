@@ -4,5 +4,5 @@ import { TodoController } from '../controllers/todos.js'
 const router = Router()
 
 router.post('/new-todo', (req, res) => TodoController.createTodo (req,res)) // HTTP päring ruuteri abil
-
+router.get('/', (req, res) => TodoController.getTodos (req, res))
 export default router
