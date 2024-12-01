@@ -19,7 +19,7 @@ class todoController {
             newTask: newTodo
         })
     } 
-    
+
     updateTodo(req, res){
         const todoId = req.params.id;
         console.log("Received todoId from URL:", todoId);
@@ -56,6 +56,27 @@ class todoController {
     getTodos(req, res) {
         res.json({tasks: this.TODOS})
     }
+    
+    // Andmete kustutamine
+    deleteTodo(req, res) {
+        // Võtab URL parameetritest ülesande ID
+        const todoId = req.params.id;
+        
+        // Otsib massiivist ülesande indeksit, mille ID on sama nagu URL parameetris
+        const todoIndex = this.TODOS.findIndex((todo) => todo.id === todoId);
+        
+        // Kui ei leita, tagastatakse veateade
+        if (todoIndex === -1) {
+            return res.status(404).json({ message: 'Could not find todo to delete' });
+        }
+    
+        // Eemaldab ülesande massiivist
+        this.TODOS.splice(todoIndex, 1) // 1 määrab, mitu elementi eemaldatakse alates todoIndex positsioonist
+    
+        // Tagastab edukuse sõnumi
+        res.json({ message: 'Todo deleted successfully' });
+    }
+    
 } 
 
 // Kontroller on mõistlik luua ainult üks kord, sest konstruktori kutsumist objekti loomiseks on vaja kasutada iga kord, kui tekib uus ülesanne
