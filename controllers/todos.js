@@ -1,11 +1,14 @@
 import { Todo } from '../models/todo.js' 
+import { fileManager } from '../files.js'
+
 // Kontroller sisaldab funktsionaalsust ülesannete kuvamiseks, lisamiseks, muutmiseks ja kustutamiseks (CRUD)
 class todoController {
     constructor(){
         // tühi massiiv todo objektidele
         this.TODOS = []  
+        this.initTodos() // saab andmed failist ja salvestab massiivi
     }  
-    createTodo(req, res) {
+        async createTodo(req, res) {
         // saab andmed läbi POST-meetodi
         const task = req.body.task
         // Luuakse uus objekt läbi Todo mudeli
@@ -13,11 +16,23 @@ class todoController {
         const newTodo = new Todo(Math.random().toString(), task)
         // Lisab massiivi uue Todo
         this.TODOS.push(newTodo)
+        // andmete faili salvestamine
+        await fileManager.writeFile('./data/todos.json', this.TODOS)
         // korrektne vastus
         res.json({
             message: 'created new todo object',
             newTask: newTodo
         })
+    } 
+
+    async initTodos(){
+        const todosData = await fileManager.readFile('./data/todos.json')
+        // kui andmed on korras, lisa faili sisu massiivi
+        if(todosData !== null){
+            this.TODOS = todosData
+        } else {
+            this.TODOS = [] // kui andmeid ei saa, luuakse tühi massiiv 
+        } 
     } 
 
     updateTodo(req, res){
