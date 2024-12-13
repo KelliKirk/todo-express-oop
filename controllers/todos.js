@@ -49,7 +49,7 @@ class todoController {
         console.log("todo array before update:", this.TODOS);
     
         // kui url params ei ole õige, saadab veateate
-        if (todoIndex === -1) {
+        if (todoIndex < 0) {
             return res.status(404).json({ message: 'Could not find todo' });
         }
     
@@ -81,7 +81,7 @@ class todoController {
         const todoIndex = this.TODOS.findIndex((todo) => todo.id === todoId);
         
         // Kui ei leita, tagastatakse veateade
-        if (todoIndex === -1) {
+        if (todoIndex < 0) {
             return res.status(404).json({ message: 'Could not find todo to delete' });
         }
     
